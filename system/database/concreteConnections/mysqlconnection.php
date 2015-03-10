@@ -6,31 +6,35 @@ class mysqlconnection extends dbconnection {
 		parent::__construct($hostname, $dbusername, $dbpassword, $dbname);
 	}
 
-	public function get(){
+	public function get($table){
 		return 'asdasdjakjsdjas';
 	}
 
-	public function get_where(){
+	public function get_where($table, $arrayWhere){
 
 	}
 
-	public function where(){
+	public function where($arrayWhere){
 
 	}
 
-	public function select(){
+	public function select($arraySelect){
 
 	}
 
-	public function update(){
+	public function update($table, $data){
 
 	}
 
-	public function delete(){
+	public function delete($table){
 
 	}
 
-	public function rawQuery(){
+	public function rawQuery($query){
+
+	}
+
+	public function insert($table, $data){
 
 	}
 

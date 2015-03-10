@@ -18,19 +18,21 @@ abstract class dbconnection {
 		$this->tableName = '';
 	}
 
-	public abstract function get();
+	public abstract function get($entitie);
 
-	public abstract function get_where();
+	public abstract function get_where($entitie, $arrayWhere);
 
-	public abstract function where();
+	public abstract function where($arrayWhere);
 
-	public abstract function select();
+	public abstract function select($arraySelect);
 
-	public abstract function update();
+	public abstract function update($entitie, $data);
 
-	public abstract function delete();
+	public abstract function delete($entitie);
 
-	public abstract function rawQuery();
+	public abstract function rawQuery($query);
+
+	public abstract function insert($entitie, $data);
 
 	protected abstract function getConection();
 

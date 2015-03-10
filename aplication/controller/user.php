@@ -6,26 +6,26 @@ class user extends core_controller {
    }
 
 	function action(){
-		$this->data['content'] = $this->load_view('loginForm', array(), true);
-		//$this->load_view('templates/template', $this->data);
 		$this->load_model('muser');
-		echo $this->muser->db->get();
+		$data['users'] = $this->muser->getUsers();
+		$this->data['content'] = $this->load_view('users_view', $data, true);
+		$this->load_view('templates/template', $this->data);
 	}
 
-	function enter(){
+	function insert(){
 		if (isset($_POST['username']) && isset($_POST['password'])) {
 			$username = $_POST['username'];
 			$password = $_POST['password'];
+			$name = $_POST['name'];
+			$lastname = $_POST['lastname'];
 
-			$this->load_model('user');
-			$user = new user('', '', $username, $password);
-			if ($user->autenticate()){
-				echo 'yeeeees';
-			} else {
-				echo 'asdasdas';
-			}
+			$this->load_model('muser');
+			$this->muser->insertUser($name, $lastname, $username, $password);
+
+			$this->redirect('user');
 		} else {
-			$this->redirect('login');
+			$this->data['content'] = $this->load_view('insert_view', array(), true);
+			$this->load_view('templates/template', $this->data);
 		}
 	}
 

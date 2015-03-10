@@ -1,9 +1,9 @@
 <?php 
 
 	
-	$database['dbdriver'] 	= "mysql";
+	$database['dbdriver'] 	= "csv"; //mysql
 
 	$database['dbhostname'] = "localhost";
 	$database['dbusername'] = "root";
 	$database['password'] 	= "";
-	$database['dbname']		="mvc";
+	$database['dbname']		="public/user.csv"; //mvc

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>esta cosa funca</title>
 		<?php foreach ($css as $value): ?>
-			<link rel="stylesheet" href="<?php echo $value ?>">
+			<link rel="stylesheet" href="<?php echo 'http://localhost/mvc/'.$value ?>">
 		<?php endforeach ?>
 	</head>
 	<body>
