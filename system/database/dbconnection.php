@@ -19,11 +19,13 @@ abstract class dbconnection {
 
 	public abstract function select($arraySelect);
 
-	public abstract function update();
+	public abstract function update($entitie, $data);
 
-	public abstract function delete();
+	public abstract function delete($entitie);
 
-	public abstract function rawQuery();
+	public abstract function rawQuery($query);
+
+	public abstract function insert($entitie, $data);
 
 	protected abstract function getConection();
 

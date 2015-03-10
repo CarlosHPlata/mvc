@@ -7,7 +7,6 @@ class mysqlconnection extends dbconnection {
 
 	function __construct($hostname, $dbusername, $dbpassword, $dbname) {
 		parent::__construct($hostname, $dbusername, $dbpassword, $dbname);
-
 		$this->resetData();
 	}
 
@@ -15,11 +14,6 @@ class mysqlconnection extends dbconnection {
 		$this->tableName = $tableName;
 		$query = 'SELECT '.$this->selectQuery.' FROM '.$this->tableName;
 		if ($this->whereQuery != '') $query .= $this->whereQuery;
-
-		$return = $this->executeQuery($query);
-		$this->resetData();
-
-		return $return;
 	}
 
 	public function get_where($tableName, $arrayWhere){
@@ -27,7 +21,6 @@ class mysqlconnection extends dbconnection {
 		$this->get($tableName);
 	}
 
-	//array('id' => '1');
 	public function where($whereArray){
 		$query =' WHERE ';
 		if (is_array($whereArray)){
@@ -55,15 +48,19 @@ class mysqlconnection extends dbconnection {
 
 	}
 
-	public function update(){
+	public function update($table, $data){
 
 	}
 
-	public function delete(){
+	public function delete($table){
 
 	}
 
-	public function rawQuery(){
+	public function rawQuery($query){
+
+	}
+
+	public function insert($table, $data){
 
 	}
 

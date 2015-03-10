@@ -11,10 +11,10 @@ class dbdriver{
 				$this->dbfactory = new mysqlfactory($database);
 				break;
 			case 'csv':
-				echo "csv";
+				$this->dbfactory = new csvfactory($database);
 				break;
 			default:
-				# code...
+				echo 404;
 				break;
 		}
 	}
