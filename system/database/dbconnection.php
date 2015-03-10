@@ -2,9 +2,6 @@
 
 abstract class dbconnection {
 
-	private $SELECTDEFAULT = '*';
-	private $WHEREDEFAULT  = '';
-
 	function __construct($dbhostname, $dbusername, $dbpassword, $dbname){
 		
 
@@ -12,19 +9,15 @@ abstract class dbconnection {
 		$this->dbusername	= $dbusername;
 		$this->dbpassword	= $dbpassword;
 		$this->dbname		= $dbname;
-
-		$this->selectQuery = $this->SELECTDEFAULT;
-		$this->whereQuery = $this->WHEREDEFAULT;
-		$this->tableName = '';
 	}
 
-	public abstract function get();
+	public abstract function get($entitie);
 
-	public abstract function get_where();
+	public abstract function get_where($entitie, $arrayWhere);
 
-	public abstract function where();
+	public abstract function where($arrayWhere);
 
-	public abstract function select();
+	public abstract function select($arraySelect);
 
 	public abstract function update();
 

@@ -43,7 +43,7 @@ class app {
 			    } else {
 			    	$controller->action();
 			    }
-			} else echo 'no existe';
+			} else echo 'no existe '.$controller_name.'->$function('.json_encode($variables).')';
 
 		} else {
 			$controller = new $this->config['default_controller']();

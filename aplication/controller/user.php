@@ -9,7 +9,9 @@ class user extends core_controller {
 		$this->data['content'] = $this->load_view('loginForm', array(), true);
 		//$this->load_view('templates/template', $this->data);
 		$this->load_model('muser');
-		echo $this->muser->db->get();
+		$this->muser->db->select(array('nombre', 'contrasena'));
+		$this->muser->db->where(array('id'=>'1'));
+		echo $this->muser->db->get('user');
 	}
 
 	function enter(){
