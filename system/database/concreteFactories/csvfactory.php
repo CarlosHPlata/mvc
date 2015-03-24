@@ -12,7 +12,8 @@ class csvfactory extends dbfactory{
         } elseif (isset($this->database['csvpath'])) {
             return new csvconnection($this->database['csvpath']);
         } else{
-            echo 404;
+            error::showError('La configuración de la base de datos parece no ser correcta');
+            die();
         }
     }
 }

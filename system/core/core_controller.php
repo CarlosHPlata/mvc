@@ -7,7 +7,10 @@ class core_controller {
 		if (file_exists(APP_BASE."/view/$viewName.php")) {
 			$view = new view();
 			return $view->load($viewName, $data, $async);
-		} else echo 404;
+		} else {
+			error::showError('la vista '.$viewName.' no puede ser encontrada');
+			die();
+		}
 	}
 
 	protected function load_model($modelName){

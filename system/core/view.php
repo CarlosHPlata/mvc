@@ -15,7 +15,7 @@ class view {
 			@ob_end_clean();
 			return $buffer;
 		} else {
-			echo include('aplication/view/'.$view.'.php');
+			include('aplication/view/'.$view.'.php');
 		}
 	}
 

@@ -39,11 +39,17 @@ class app {
 			    if ($function){
 			    	if (method_exists($controller, $function) && is_callable(array($controller, $function))){
 			    		call_user_func_array(array($controller, $function), $variables? $variables : array());
-			    	} else echo 'function mal';
+			    	} else {
+			    		error::showError('No se puede localizar la url solicitada');
+			    		die();
+			    	} 
 			    } else {
 			    	$controller->action();
 			    }
-			} else echo 'no existe '.$controller_name.'->$function('.json_encode($variables).')';
+			} else {
+				error::showError('No se puede localizar la url solicitada');
+			    die();
+			} 
 
 		} else {
 			$controller = new $this->config['default_controller']();

@@ -26,6 +26,8 @@ spl_autoload_register(
         if (file_exists("system/config/$className.php")){
             include_once "system/config/$className.php";
         }
-
+        if (file_exists("system/error/$className.php")){
+            include_once "system/error/$className.php";
+        }
     }
 );
