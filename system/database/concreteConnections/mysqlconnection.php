@@ -65,7 +65,11 @@ class mysqlconnection extends dbconnection {
 	}
 
 	protected function getConection(){
-
+		$this->mysqli = new mysqli($this->dbhostname, $this->dbusername, $this->dbpassword, $this->dbname);
+		if (mysqli_connect_errno()){
+			error::showError('No se ha podido cargar la base de datos');
+			die();
+		}
 	}
 
 	protected function closeConnection(){
