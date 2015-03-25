@@ -1,6 +1,6 @@
     <div class="row vertical-offset-100">
     	<div class="col-md-12" style="background: white; padding: 50px;">
-    		<form action="/mvc/user/insert" class="form-control" method="POST">
+    		<form action="user/insert" class="form-control" method="POST">
     			<div class="row" style="margin-top: 10px;">
                      <div class="col-md-12"><input type="text" name="name" placeholder="name" class="form-control"></div>
                  </div> 

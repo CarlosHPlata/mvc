@@ -3,7 +3,7 @@
 	    	<div class="col-md-12" style="background: white;">
 	    			<div class="row">
 	    				<div class="col-md-9">
-	    					<a href="/mvc/user/insert" class="btn btn-default">Insertar nuevo</a>
+	    					<a href="user/insert" class="btn btn-default">Insertar nuevo</a>
 	    				</div>
 	    			</div>
 	    		<table class="table">
