@@ -18,9 +18,10 @@
 	    			<tbody>
 	    				<?php foreach ($users as $line): ?>
 	    					<tr>
-	    						<?php foreach ($line as $key => $value): ?>
-	    							<td> <?php echo $value ?> </td>
-	    						<?php endforeach ?>
+	    						<td> <?php echo $line['firstName'] ?> </td>
+	    						<td> <?php echo $line['lastName'] ?> </td> 
+	    						<td> <?php echo $line['user'] ?> </td>
+	    						<td> <?php echo $line['password'] ?> </td>
 	    					</tr>
 	    				<?php endforeach ?>
 	    			</tbody>

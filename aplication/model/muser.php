@@ -7,16 +7,17 @@ class muser extends core_model {
 	}
 
 	function getUsers(){
-		return $this->db->get();
+		//$this->db->where(array('firstName !=' => 'carlos'));
+		return $this->db->get('users');
 	}
 
 	function insertUser($name, $lastname, $user, $pass){
 		$data = array();
-		$data[] = $name;
-		$data[] = $lastname;
-		$data[] = $user;
-		$data[] = $pass;
-		$this->db->insert($data);
+		$data['firstName'] = $name;
+		$data['lastName'] = $lastname;
+		$data['user'] = $user;
+		$data['password'] = $pass;
+		$this->db->insert('users',$data);
 	}
 
 	
