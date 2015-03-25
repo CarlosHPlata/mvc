@@ -184,7 +184,7 @@ class mysqlconnection extends dbconnection {
 		} else {
 			$consulta->execute();
 			$this->resetData();
-			return true;
+			return $consulta;
 		}
 	}
 
