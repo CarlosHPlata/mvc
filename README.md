@@ -221,32 +221,112 @@ nuestro archivo `user_view.php` contendra:
     <title>my page</title>
   </head>
   <body>
-    <div class="container">
-          <div class="row vertical-offset-100">
-            <div class="col-md-12" style="background: white;">
-                <div class="row">
-                  <div class="col-md-9">
-                    <a href="user/insert" class="btn btn-default">Insertar nuevo</a>
-                  </div>
-                </div>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Usuario</th>
-                    <th>Contrasena</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-        </div>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
   </body>
   </html>
 ```
+
+Una simple vista que contiene una tabla para poder visualizar nuestros usuarios en la base de datos.
+Para poder visualizarlos nos vamos a nuestro controlador `user` y usamos un metodo similar al que utilizamos para cargar un modelo, usaremos el metodo `load_view($viewName, $data)`, al cargar una vista de este modo, se mostrara automaticamente en pantalla.
+
+lo llamaremos desde nuestro controlador entonces:
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+      $users = $this->muser->getUsers();
+      
+      //cargando una vista para mostrarla
+      $this->load_view('users_view', array());
+    }
+}
+```
+
+Si probamos en este punto nuestra aplicacion, podremos ver que al ejecutarla ya se puede apreciar nuestra pequeña vista, pero en este momento no hemos mandado ningun usuario a la vista para poder mostrarlo.
+
+Para eso, haremos uso del segundo parametro de nuestro metodo `load_view()` el parametro `$data` es un arreglo que contiene los diferentes datos que han de ser pasados a la vista en forma de variables.
+este parametro es un array asociativo de la forma:
+```
+array('key' => value);
+```
+Al pasar dicho array como segundo parametro a nuestra vista, luego puede ser invocada desde la misma en forma de variable.
+```
+echo $key
+```
+
+resultado:
+
+```
+value
+```
+
+de este modo, vamos a pasar nuestros usuarios a la vista para ser listados en la tabla que hemos creado:
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+
+      $data =  array();
+      $data[users] = $this->muser->getUsers();
+      
+      //cargando una vista para mostrarla
+      $this->load_view('users_view', $data);
+    }
+}
+```
+
+
+y nuestra vista luego podemos mostrar los usuarios de la siguiente forma:
+
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>my page</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Usuario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($users as $line): ?>
+          <tr>
+            <td> <?php echo $line['name'] ?> </td>
+            <td> <?php echo $line['lastname'] ?> </td> 
+            <td> <?php echo $line['user'] ?> </td>
+          </tr>
+        <?php endforeach ?>
+      </tbody>
+    </table>
+  </body>
+  </html>
+```
+
+Al ejecutar nuestra aplicacion ya se debera poder ver nuestros usuarios registrados en la base de datos.
+De esta forma dinamica hemos podido comprender la transicion y flujo de nuestra aplicacion
+
 
 
 
