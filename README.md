@@ -283,7 +283,7 @@ class user extends core_controller {
       $this->load_model('muser');
 
       $data =  array();
-      $data[users] = $this->muser->getUsers();
+      $data['users'] = $this->muser->getUsers();
       
       //cargando una vista para mostrarla
       $this->load_view('users_view', $data);
@@ -327,6 +327,317 @@ y nuestra vista luego podemos mostrar los usuarios de la siguiente forma:
 Al ejecutar nuestra aplicacion ya se debera poder ver nuestros usuarios registrados en la base de datos.
 De esta forma dinamica hemos podido comprender la transicion y flujo de nuestra aplicacion
 
+Pero que pasa si queremos mantener nuestra aplicacion web con una estructura en las vistas definida, que todas mantengan el mismo estilo visual y en concreto usen una plantilla.
+
+Silvercoding tiene la facilidad de cargar vistas de manera asyncrona, es decir de guardar una vista en una variable y luego poder pasarla como parametro a otra vista, para ser usada.
+
+De este modo podemos cargar diferentes estructuras de vistas en una sola plantilla.
+
+Tomemos como ejemplo nuestra vista anterior separemos nuestra vista en dos archivos, en este caso vamos a crear un nuevo directorio llamado `templates` (esto es opcional y a manera de mostrar como silvercoding maneja directorios), en nuestro directorio de vistas `aplication/view/templates/`
+
+Dentro crearemos una nueva vista llamada `template.php` la cual contendra solo el esqueleto basico de una pagina html.
+
+`template.php`
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>my page</title>
+  </head>
+  <body>
+    
+  </body>
+  </html>
+```
+
+y modificamos nuestra vista `users_view.php` para que solo contenga el cuerpo de la vista:
+
+`users_view.php`
+```
+  <tbody>
+    <?php foreach ($users as $line): ?>
+      <tr>
+        <td> <?php echo $line['name'] ?> </td>
+        <td> <?php echo $line['lastname'] ?> </td> 
+        <td> <?php echo $line['user'] ?> </td>
+      </tr>
+    <?php endforeach ?>
+  </tbody>
+```
+
+ahora vamos nuestro controlador, y empecemos a trabajar.
+En primer lugar habra que crear una variable a la que llamaremos `body` la cual contendra el cuerpo de nuestra vista.
+Aqui volveremos a usar nuestro metodo `load_view()` pero esta vez le añadiremos un tercer parametro.
+`load_view($viewName, $data, $asynLoad)`
+el parametro `$asyncLoad` es un booleano, cuando esta definido en `true` realizara una carga asincrona de la vista, de manera que nuestra vista no sera mostrada en pantalla si no, retornada a manera de variable.
+Ahora almacenaremos esta vista en nuestra variable `$body`.
+
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+
+      $data =  array();
+      $data['users'] = $this->muser->getUsers();
+      
+      //cargando una vista de manera asincrona
+      $body = $this->load_view('users_view', $data, true)
+    }
+}
+```
+
+si ejecutamos nuestra aplicacion web en este momento notaremos que no aparecera nada en pantalla, ya que la vista no ha sido cargada en pantalla, si no que devuelta en forma de variable.
+Sin embargo si somos curiosos y hacemos:
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+
+      $data =  array();
+      $data['users'] = $this->muser->getUsers();
+      
+      //cargando una vista de manera asincrona
+      $body = $this->load_view('users_view', $data, true)
+
+      echo $body;     //<----------
+    }
+}
+```
+
+ahora podremos ver el contenido de nuestra vista, debido a que hemos llamado a nuestra variable que la contenia, para que se muestre en pantalla.
+
+Ahora crearemos un nuevo arreglo `$dataTemplate` donde añadiremos nuestra vista:
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+
+      $data =  array();
+      $data['users'] = $this->muser->getUsers();
+      
+      //cargando una vista de manera asincrona
+      $body = $this->load_view('users_view', $data, true)
+
+      $dataTemplate = array();
+      $dataTemplate['body'] = $body;
+    }
+}
+```
+
+Ahora solo faltara cargar la vista del template y mandarle `$dataTemplate` para que el template pueda tener acceso a la variable `$body`
+
+```
+class user extends core_controller {
+    function __construct(){}
+
+    function action(){
+      $this->load_model('muser');
+
+      $data =  array();
+      $data['users'] = $this->muser->getUsers();
+      
+      //cargando una vista de manera asincrona
+      $body = $this->load_view('users_view', $data, true)
+
+      $dataTemplate = array();
+      $dataTemplate['body'] = $body;
+
+      $this->load_view('templates/template', $dataTemplate);
+    }
+}
+```
+
+Solo faltaria hacer unos ajustes a nuestra vista `template.php` para poder mostrar el cuerpo que se contiene en la variable `$body`
+
+`template.php`
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>my page</title>
+  </head>
+  <body>
+    <?php echo $body; ?>
+  </body>
+  </html>
+```
+
+de este modo hemos logrado cargar multiples vistas y que al final se vean reflejadas en una sola template, jugando con estos metodos podriamos hacer cosas como:
+
+`template.php`
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>my page</title>
+  </head>
+  <body>
+    <?php echo $header; ?>
+
+    <?php if ($isIndex): ?>
+      <?php echo $bannerSection; ?>
+    <?php endif ?>
+
+    <?php echo $body; ?>
+
+    <?php echo $footer; ?>
+  </body>
+  </html>
+```
+
+Ahora mostraremos como quedarian las vistas si combinamos todos los metodos que hemos visto, para hacer un insert de un nuevo usuario y refactorizar el codigo de manera mas optima:
+
+**modelo**
+`muser.php`
+```
+class muser extends core_model {
+
+  function __construct(){
+    parent::__construct();
+  }
+
+  function getUsers(){
+    return $this->db->get('users');
+  }
+
+  function insertUser($name, $lastname, $user){
+    $data = array();
+    $data['name'] = $name;
+    $data['lastname'] = $lastname;
+    $data['user'] = $user;
+
+    $this->db->insert('users',$data);
+  }
+
+  
+}
+```
+
+**controlador**
+`user.php`
+```
+  class user extends core_controller {
+
+    function __construct() {
+         $this->data['css'] = array('public/famous/css/famous.min.css', 'public/css/login.css' );
+         $this->load_model('muser');
+     }
+
+    function action(){
+      $data['users'] = $this->muser->getUsers();
+      $this->data['content'] = $this->load_view('users_view', $data, true);
+      $this->load_view('templates/template', $this->data);
+    }
+
+    function insert(){
+      if ( isset($_POST['username']) ) {
+        $username = $_POST['username'];
+        $name     = $_POST['name'];
+        $lastname = $_POST['lastname'];
+
+        $this->load_model('muser');
+        $this->muser->insertUser($name, $lastname, $username);
+
+        $this->redirect('user');
+
+      } else {
+        $this->data['content'] = $this->load_view('insert_view', array(), true);
+        $this->load_view('templates/template', $this->data);
+      }
+    }
+
+    function logout($uno, $dos){
+      echo $uno.' y '.$dos;
+    }
+
+  }
+```
+
+**vistas**
+`template.php`
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>esta cosa funca</title>
+  <?php foreach ($css as $value): ?>
+    <link rel="stylesheet" href="<?php echo 'http://localhost/mvc/'.$value ?>">
+  <?php endforeach ?>
+</head>
+<body>
+  <div class="container">
+    <?php echo $content; ?>
+  </div>
+</body>
+</html>
+```
+
+`user_view.php`
+```
+    <div class="row vertical-offset-100">
+      <div class="col-md-12" style="background: white;">
+          <div class="row">
+            <div class="col-md-9">
+              <a href="user/insert" class="btn btn-default">Insertar nuevo</a>
+            </div>
+          </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($users as $line): ?>
+              <tr>
+                <td> <?php echo $line['name'] ?> </td>
+                <td> <?php echo $line['lastname'] ?> </td> 
+                <td> <?php echo $line['user'] ?> </td>
+              </tr>
+            <?php endforeach ?>
+          </tbody>
+        </table>
+      </div>
+  </div>
+```
+
+`insert_view.php`
+```
+    <div class="row vertical-offset-100">
+      <div class="col-md-12" style="background: white; padding: 50px;">
+        <form action="user/insert" class="form-control" method="POST">
+          <div class="row" style="margin-top: 10px;">
+                     <div class="col-md-12"><input type="text" name="name" placeholder="name" class="form-control"></div>
+                 </div> 
+                <div class="row" style="margin-top: 10px;">
+                     <div class="col-md-12"><input type="text" name="lastname" placeholder="lastname" class="form-control"></div>
+                 </div>
+                <div class="row">
+                     <div class="col-md-12"><input type="text" name="username" placeholder="username" class="form-control"></div>
+                 </div>
+                 <div class="row" style="margin-top: 10px;">
+                     <div class="col-md-1"><input type="submit" value="insertar" class="btn btn-success"></div>
+                     <div class="col-md-1"><a href="user" class="btn btn-warning">Cancelar</a>
+                 </div>
+        </form>
+      </div>
+  </div>
+```
 
 
 
