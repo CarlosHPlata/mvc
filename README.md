@@ -1,5 +1,6 @@
 # mvc framework (silvercoding)
 >desarrollado por: Carlos Herrera Plata
+>Para conocer mas visita la [documentacion](https://github.com/kingskull619/mvc/wiki)
 
 ##Primer uso
 
@@ -39,7 +40,7 @@ Esta linea debe ser modificada con el directorio donde se aloja su framework.
 tomando el ejemplo que el framework ha sido instalado en el directorio raiz de tu servidor `archivos/silvercoding` la linea debera verse como sigue:
 
 ```
-  RewriteBase /archivos/sivercoding/
+  RewriteBase /archivos/silvercoding/
 ```
 Esto con el objetivo de que el ruteo manual sea mas comodo para usted. y cada vez que quiera llamar alguna ruta dentro de su aplicación web no tenga que escribir la ruta completa de donde se encuentra su archivo.
 
@@ -51,7 +52,7 @@ Dentro del archivo ya vienen descritas lo qe cada variable significa.
 ===
 
 A continuación de manera adicional (en caso de que use base de datos) debera configurar el archivo `database.php` para que pueda conectarse con la base de datos que usted desee.
-Si quiere saber sobre mas opciones de configuración de base de datos acceda a la [documentacion](#).
+Si quiere saber sobre mas opciones de configuración de base de datos acceda a la [documentacion](https://github.com/kingskull619/mvc/wiki/Configuraciones#databasephp).
 
 ===
 
