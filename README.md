@@ -74,13 +74,14 @@ Porsupuesto enviar informacion sensible via url (o via get) no es lo optimo, per
 
 Pasemos a diseccionar la url anterior, tomando los elementos que estan separados por `/`
 
-Elemento  | Significado
-------------- | -------------
-``www.mypage.com`` | es la url raiz de nuestra aplicación, en caso de que la url solo contenga este elemento el framework intentara llamar al controlador default por el metodo default `action()` que se halla configurado en el archivo `config.php`.
-``user`` | user hace referencia a un controlador, con el mismo nombre de clase que se indica en la url si la url se corta sobre este contenido, entonces se llamara al metodo default `action()` del controlador `user`.
-``login`` | login hace referencia a un metodo `login()` existente dentro de la clase controlador `user`.
-``username/password`` | el resto de los elementos de la url haran referencia a variables que seran pasadas al metodo que se quiera llamar. <br> De modo que en este ejemplo se llamara a: `login($username, $password)` metodo contenido en la clase controlador `user`
+Tipo de elemento|Elemento  | Significado
+------------- | ------------- | -------------
+1|``www.mypage.com`` | es la url raiz de nuestra aplicación, en caso de que la url solo contenga este elemento el framework intentara llamar al controlador default por el metodo default `action()` que se halla configurado en el archivo `config.php`.
+2|``user`` | user hace referencia a un controlador, con el mismo nombre de clase que se indica en la url si la url se corta sobre este contenido, entonces se llamara al metodo default `action()` del controlador `user`.
+3|``login`` | login hace referencia a un metodo `login()` existente dentro de la clase controlador `user`.
+4|``username/password`` | el resto de los elementos de la url haran referencia a variables que seran pasadas al metodo que se quiera llamar. <br> De modo que en este ejemplo se llamara a: `login($username, $password)` metodo contenido en la clase controlador `user`
 
+Es importante que `*evitemos* pasar parametros por el metodo `GET` ya que estos modifican la url, y podria causar errores en nuestra aplicación, en vez de eso, los parametros por get deberan ser enviados por url como elementos del tipo 4.
 
 ##Creando nuestra primera aplicación
 El *Objetivo* de nuestra aplicación sera el listado e insertado de usuarios en una base de datos.
@@ -147,6 +148,67 @@ Ahora mismo usted puede ejecutar su aplicación web y debera ver en su navegador
 `hello world`
 
 ###creando el primero modelo
+A continuacion crearemos el modelo que nos permitira acceder a la base de datos de nuestros usuarios.
+Nos dirigiremos al directorio `aplication/model` y crearemos una nueva clase de modelo `muser` que extiende de la clase `core_model` de nuestrio framework.
+
+```
+class muser extends core_model {
+  function __construct(){
+    parent::__construct();
+  }
+}
+```
+Nuestro framework por defecto conecta a nuestra base de datos cada vez que se crea un nuevo modelo y esta coneccion puede ser accedida mediante la variable `db` de nuestra clase modelo.
+
+A continuacion crearemos un metodo en nuestro modelo para obtener todos los usuarios registrados en la tabla `user` (No se olvide de insertar algun valor en su tabla).
+
+```
+class muser extends core_model {
+  function __construct(){
+    parent::__construct();
+  }
+
+  function getUsers(){
+    return $this->db->get('users');
+  }
+}
+```
+
+En el metodo anterior usamos los metodos *active record* que pueden ser invocados desde nuestra variable de acceso a base de datos, en este ejemplo concreto usaremos el metodo `get($tableName)`
+El cual ejecuta una sentencia similar a:
+
+´SELECT * FROM users´
+
+Para saber mas acerca de la variable `db` y los metodos *active record* consulte la [documentacion](#).
+
+ahora para mostrarle los datos al usuario hay que llamar nuestro modelo desde nuestro controlador `usuario`, para esto usaremos un metodo interno del framework desde nuestro controlador.
+
+EL metodo e: `load_model($modelName)`, este metodo carga un modelo en nuestra clase controlador, que luego podra ser accedida como variable local llamandola por el nombre del metodo.
+De este modo si nuestro modelo se llama `muser` lo llamamos por medio del metodo `load_model('muser')`, y luego desde nuestro controlador podremos llamarlo como `$this->muser`.
+
+Aqui el ejemplo para imprimir los usuarios.
+
+```
+class user extends core_controller {
+    function __construct(){}`
+
+    function action(){
+      $this->load_model('muser');
+      $users = $this->muser->getUsers();
+      
+      foreach($user as $row){
+        echo $row['name'].'<br>';
+      }
+    }
+}
+```
+
+De esta manera si accedemos a nuestra aplicación y todo ha salido de manera correcta, deberiamos encontrarnos con un listado de los nombres de los usuarios en nuestra base de datos.
+
+
+
+
+
 
 
 

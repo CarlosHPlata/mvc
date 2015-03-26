@@ -3,10 +3,11 @@ class user extends core_controller {
 
 	function __construct() {
        $this->data['css'] = array('public/bootstrap/css/bootstrap.min.css', 'public/css/login.css' );
+       
+		$this->load_model('muser');
    }
 
 	function action(){
-		$this->load_model('muser');
 		$data['users'] = $this->muser->getUsers();
 		$this->data['content'] = $this->load_view('users_view', $data, true);
 		$this->load_view('templates/template', $this->data);
