@@ -81,10 +81,10 @@ Tipo de elemento|Elemento  | Significado
 3|``login`` | login hace referencia a un metodo `login()` existente dentro de la clase controlador `user`.
 4|``username/password`` | el resto de los elementos de la url haran referencia a variables que seran pasadas al metodo que se quiera llamar. <br> De modo que en este ejemplo se llamara a: `login($username, $password)` metodo contenido en la clase controlador `user`
 
-Es importante que `*evitemos* pasar parametros por el metodo `GET` ya que estos modifican la url, y podria causar errores en nuestra aplicación, en vez de eso, los parametros por get deberan ser enviados por url como elementos del tipo 4.
+Es importante que **evitemos** pasar parametros por el metodo `GET` ya que estos modifican la url, y podria causar errores en nuestra aplicación, en vez de eso, los parametros por get deberan ser enviados por url como elementos del tipo 4.
 
 ##Creando nuestra primera aplicación
-El *Objetivo* de nuestra aplicación sera el listado e insertado de usuarios en una base de datos.
+El **Objetivo** de nuestra aplicación sera el listado e insertado de usuarios en una base de datos.
 
 Antes de empezar es necesario crear una base de datos para poder ser usada en nuestro framework. Se puede usar el siguiente sql:
 
@@ -174,12 +174,12 @@ class muser extends core_model {
 }
 ```
 
-En el metodo anterior usamos los metodos *active record* que pueden ser invocados desde nuestra variable de acceso a base de datos, en este ejemplo concreto usaremos el metodo `get($tableName)`
+En el metodo anterior usamos los metodos **active record** que pueden ser invocados desde nuestra variable de acceso a base de datos, en este ejemplo concreto usaremos el metodo `get($tableName)`
 El cual ejecuta una sentencia similar a:
 
 ´SELECT * FROM users´
 
-Para saber mas acerca de la variable `db` y los metodos *active record* consulte la [documentacion](#).
+Para saber mas acerca de la variable `db` y los metodos **active record** consulte la [documentacion](#).
 
 ahora para mostrarle los datos al usuario hay que llamar nuestro modelo desde nuestro controlador `usuario`, para esto usaremos un metodo interno del framework desde nuestro controlador.
 
@@ -205,6 +205,48 @@ class user extends core_controller {
 
 De esta manera si accedemos a nuestra aplicación y todo ha salido de manera correcta, deberiamos encontrarnos con un listado de los nombres de los usuarios en nuestra base de datos.
 
+###Creando una vista
+Nuestro framework esta enfocado para separar no solo el codigo en una estructura MVC si no tambien tratar de desligar el codigo HTML usada en la vista con la logica de php usada en el controlador.
+De modo que las vistas en nuestro controlador no necesitan extender ni usar codigo `php` a menos que sea necesario para mostrar contenido de forma dinamica.
+
+De esta forma vamos a crear un nueva vista en nuestro directorio `aplication/view/` nuestro archivo se llamara `user_view.php`, recalcamos aunque nuestras vistas sean archivos `php` para el uso de estas en el framework nuestra vista puede no contener ninguna sentencia `php` y solo `html`.
+
+nuestro archivo `user_view.php` contendra:
+
+```
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>my page</title>
+  </head>
+  <body>
+    <div class="container">
+          <div class="row vertical-offset-100">
+            <div class="col-md-12" style="background: white;">
+                <div class="row">
+                  <div class="col-md-9">
+                    <a href="user/insert" class="btn btn-default">Insertar nuevo</a>
+                  </div>
+                </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Usuario</th>
+                    <th>Contrasena</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+  </body>
+  </html>
+```
 
 
 
