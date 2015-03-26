@@ -62,6 +62,10 @@ Con esto el framework estara configurado y listo para poder ser usado.
 Para aprender a desarrollar en el framework es necesario conocer como este maneja las rutas para acceder a controladores por metodos y variables.
 
 El acceso a los controladores del framework esta sujeto a la url que su aplicación obtenga del navegador
+De la forma siguiente:
+
+``www.mypage.com/mycontroller/method/param1/param2/param3/...``
+
 Una url tipica del framework podria ser:
 
 ``` www.mypage.com/user/login/username/password  ```
