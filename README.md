@@ -557,11 +557,6 @@ class muser extends core_model {
         $this->load_view('templates/template', $this->data);
       }
     }
-
-    function logout($uno, $dos){
-      echo $uno.' y '.$dos;
-    }
-
   }
 ```
 
