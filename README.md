@@ -1,4 +1,5 @@
 # mvc framework (silvercoding)
+>desarrollado por: Carlos Herrera Plata
 
 ##Primer uso
 
