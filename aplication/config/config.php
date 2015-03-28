@@ -28,4 +28,4 @@
 	cuando la url no contiene ningun controlador definido en esta, se puede llamar a un controlador por default.
 	Usualmente podria ser la pagina de inicio de su aplicacion web, para que esta sea ejecutada cuando se acceda a la url raiz
 	*/
-	$config['default_controller'] 	= 'user';
+	$config['default_controller'] 	= 'controller';

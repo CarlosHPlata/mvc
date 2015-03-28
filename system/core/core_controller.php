@@ -2,6 +2,9 @@
 
 class core_controller {
 
+	function __construct(){
+		
+	}
 
 	protected function load_view($viewName, $data=array(), $async = false){
 		if (file_exists(APP_BASE."/view/$viewName.php")) {
@@ -14,7 +17,6 @@ class core_controller {
 	}
 
 	protected function load_model($modelName){
-		include('aplication/model/'.$modelName.'.php'); 
 		$this->$modelName = new $modelName();
 	}
 
