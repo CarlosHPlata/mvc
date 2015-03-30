@@ -194,4 +194,74 @@ class mysqlconnection extends dbconnection {
 		$this->tableName = '';
 	}
 
+
+
+	public function get(entity $entitie){
+		if ( tableExist(get_class($entity)) ){
+			$this->get( get_class($entity) );
+		} else {
+
+		}	
+	}
+
+    public function where($arrayWhere){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    public function select($arraySelect){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    public function update(entity $entitie){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    public function delete(entity $entitie){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    public function rawQuery($query){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    public function insert(entity $entitie){
+		if ( tableExist(get_class($entity)) ){
+
+		}else {
+
+		}
+    }
+
+    protected function tableExist($table){
+    	try {
+    	    $result = $this->connection->query("SELECT 1 FROM $table LIMIT 1");
+    	} catch (Exception $e) {
+    	    // We got an exception == table not found
+    	    return FALSE;
+    	}
+
+    	// Result is either boolean FALSE (no table found) or PDOStatement Object (table found)
+    	return $result !== FALSE;
+    }
+
 }

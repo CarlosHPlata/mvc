@@ -107,4 +107,22 @@ class csvconnection extends dbconnection{
         fclose($handle);
         return $data;
     }
+
+    public function get(entity $entitie){}
+
+    public function get_where(entity $entitie, $arrayWhere){}
+
+    public function where($arrayWhere){}
+
+    public function select($arraySelect){}
+
+    public function update(entity $entitie){}
+
+    public function delete(entity $entitie){}
+
+    public function rawQuery($query){}
+
+    public function insert(entity $entitie){}
+
+    protected function tableExist($table){}
 }
