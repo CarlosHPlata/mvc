@@ -498,6 +498,7 @@ de este modo hemos logrado cargar multiples vistas y que al final se vean reflej
   </body>
   </html>
 ```
+###Finalizando la aplicación de ejemplo
 
 Ahora mostraremos como quedarian las vistas si combinamos todos los metodos que hemos visto, para hacer un insert de un nuevo usuario y refactorizar el codigo de manera mas optima:
 
