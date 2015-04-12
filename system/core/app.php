@@ -12,7 +12,7 @@ class app {
 
 	function run(){
 
-		$request    	= trim($_SERVER['REQUEST_URI'], '/');
+		$request    	= trim(@$_SERVER['PATH_INFO'], '/');
 		$uriSegments 	= explode('/', $request);
 
 		foreach ($uriSegments as $key => $value) {
