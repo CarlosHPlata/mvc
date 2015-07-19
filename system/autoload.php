@@ -1,6 +1,13 @@
 <?php 
 define("APP_BASE", $config['aplication_folder']);
 
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    define("PUBLIC_FOLDER", "https://".$config['base_url'].'/'.$config['public_folder'].'/');
+} else {
+    define("PUBLIC_FOLDER", "http://".$config['base_url'].'/'.$config['public_folder'].'/');
+}
+
+
 spl_autoload_extensions('.php');
 
 spl_autoload_register(

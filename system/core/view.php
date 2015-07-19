@@ -8,6 +8,8 @@ class view {
 			}
 		}
 
+		$asset = new asset();
+
 		if ($async) {
 			ob_start();
 			include('aplication/view/'.$view.'.php');
@@ -17,6 +19,10 @@ class view {
 		} else {
 			include('aplication/view/'.$view.'.php');
 		}
+	}
+
+	function lol(){
+		return "jajajajja";
 	}
 
 }
